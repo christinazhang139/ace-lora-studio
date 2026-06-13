@@ -17,6 +17,16 @@ Train the ACE-Step music generation model to learn your musical style:
 5. **A/B Compare** — Generate the same prompt with and without LoRA, listen side by side
 6. **Spectral Compare** — FFT frequency analysis comparing LoRA output, base output, and your reference audio with cosine similarity scoring
 
+### Screenshots
+
+**Full training workflow** — all 4 steps on one page with progress tracking:
+
+![Workflow](docs/screenshots/workflow-complete.png)
+
+**Export + A/B Compare + Spectral Compare** — side-by-side listening and frequency analysis:
+
+![Export and Compare](docs/screenshots/export-compare.png)
+
 ## About ACE-Step 1.5
 
 ACE-Step is an open-source music generation model (CVPR 2026, MIT license) with two components:
