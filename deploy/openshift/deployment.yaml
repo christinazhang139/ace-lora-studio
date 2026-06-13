@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ace-lora-studio
+  name: ace-lora-training-studio
   labels:
-    app: ace-lora-studio
+    app: ace-lora-training-studio
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: ace-lora-studio
+      app: ace-lora-training-studio
   template:
     metadata:
       labels:
-        app: ace-lora-studio
+        app: ace-lora-training-studio
     spec:
       containers:
-        - name: ace-lora-studio
+        - name: ace-lora-training-studio
           # Replace with your actual image registry and tag
-          image: quay.io/youruser/ace-lora-studio:latest
+          image: quay.io/youruser/ace-lora-training-studio:latest
           ports:
             - containerPort: 3000
               protocol: TCP

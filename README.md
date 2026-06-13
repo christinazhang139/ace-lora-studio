@@ -84,8 +84,8 @@ Models download automatically on first run.
 ### Option 1: Run Locally (npm)
 
 ```bash
-git clone https://github.com/christinazhang139/ace-lora-studio.git
-cd ace-lora-studio
+git clone https://github.com/christinazhang139/ace-lora-training-studio.git
+cd ace-lora-training-studio
 npm install
 npm run build
 npm start
@@ -102,8 +102,8 @@ NEXT_PUBLIC_API_URL=http://your-backend:8001 npm start
 ### Option 2: Docker Compose
 
 ```bash
-git clone https://github.com/christinazhang139/ace-lora-studio.git
-cd ace-lora-studio
+git clone https://github.com/christinazhang139/ace-lora-training-studio.git
+cd ace-lora-training-studio
 docker compose -f deploy/local/docker-compose.yml up
 ```
 
@@ -114,15 +114,15 @@ Edit `deploy/local/docker-compose.yml` to set `NEXT_PUBLIC_API_URL` to your back
 See [deploy/openshift/README.md](deploy/openshift/README.md) for full instructions.
 
 ```bash
-docker build -f deploy/openshift/Dockerfile -t your-registry/ace-lora-studio:latest .
-docker push your-registry/ace-lora-studio:latest
+docker build -f deploy/openshift/Dockerfile -t your-registry/ace-lora-training-studio:latest .
+docker push your-registry/ace-lora-training-studio:latest
 oc apply -f deploy/openshift/
 ```
 
 ## Project Structure
 
 ```
-ace-lora-studio/
+ace-lora-training-studio/
 ├── packages/ui/        # Shared component library (@ace/ui)
 │   └── src/
 │       ├── components/ # Button, Card, AudioPlayer, etc.

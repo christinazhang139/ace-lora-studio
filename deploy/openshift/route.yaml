@@ -1,13 +1,13 @@
 apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
-  name: ace-lora-studio
+  name: ace-lora-training-studio
   labels:
-    app: ace-lora-studio
+    app: ace-lora-training-studio
 spec:
   to:
     kind: Service
-    name: ace-lora-studio
+    name: ace-lora-training-studio
   port:
     targetPort: 3000
   tls:
