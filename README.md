@@ -1,6 +1,8 @@
-# ACE Studio
+# ACE LoRA Studio
 
 Web frontend for [ACE-Step 1.5](https://github.com/ace-step/ACE-Step-1.5), the open-source music generation model (CVPR 2026, MIT license).
+
+Built by [Christina Zhang](https://github.com/christinazhang139).
 
 Two apps in one monorepo:
 
@@ -87,8 +89,8 @@ Models download automatically on first run.
 ### Option 1: Run Locally (npm)
 
 ```bash
-git clone https://github.com/christinazhang139/ace-studio.git
-cd ace-studio
+git clone https://github.com/christinazhang139/ace-lora-studio.git
+cd ace-lora-studio
 npm install
 npm run build
 npm start
@@ -105,8 +107,8 @@ NEXT_PUBLIC_API_URL=http://your-backend:8001 npm start
 ### Option 2: Docker Compose
 
 ```bash
-git clone https://github.com/christinazhang139/ace-studio.git
-cd ace-studio
+git clone https://github.com/christinazhang139/ace-lora-studio.git
+cd ace-lora-studio
 docker compose -f deploy/local/docker-compose.yml up
 ```
 
@@ -118,8 +120,8 @@ See [deploy/openshift/README.md](deploy/openshift/README.md) for full instructio
 
 ```bash
 # Build and push the image
-docker build -f deploy/openshift/Dockerfile -t your-registry/ace-studio:latest .
-docker push your-registry/ace-studio:latest
+docker build -f deploy/openshift/Dockerfile -t your-registry/ace-lora-studio:latest .
+docker push your-registry/ace-lora-studio:latest
 
 # Deploy
 oc apply -f deploy/openshift/
@@ -128,7 +130,7 @@ oc apply -f deploy/openshift/
 ## Project Structure
 
 ```
-ace-studio/
+ace-lora-studio/
 ├── packages/ui/        # Shared component library (@ace/ui)
 │   └── src/
 │       ├── components/ # Button, Card, AudioPlayer, etc.
@@ -164,7 +166,7 @@ Copy `.env.example` to `.env.local` to configure.
 ```
 ┌─────────────────────┐     HTTP/REST      ┌──────────────────────┐
 │                     │ ◄──────────────── │                      │
-│   ACE Studio        │                    │   ACE-Step 1.5       │
+│   ACE LoRA Studio   │                    │   ACE-Step 1.5       │
 │   (Next.js)         │ ──────────────── │   (FastAPI + PyTorch) │
 │                     │   /v1/training/*   │                      │
 │   Port 3000         │   /v1/lora/*       │   Port 8001          │
