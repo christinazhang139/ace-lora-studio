@@ -1,0 +1,15 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: ace-studio
+  labels:
+    app: ace-studio
+spec:
+  to:
+    kind: Service
+    name: ace-studio
+  port:
+    targetPort: 3000
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect

@@ -1,0 +1,13 @@
+services:
+  studio:
+    build:
+      context: ../..
+      dockerfile: deploy/local/Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      # Point this to your ACE-Step 1.5 backend
+      # If running on the same machine: use host.docker.internal (macOS/Windows)
+      # or your machine's LAN IP (Linux)
+      - NEXT_PUBLIC_API_URL=http://host.docker.internal:8001
+    restart: unless-stopped

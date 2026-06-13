@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ace-studio
+  labels:
+    app: ace-studio
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ace-studio
+  template:
+    metadata:
+      labels:
+        app: ace-studio
+    spec:
+      containers:
+        - name: ace-studio
+          image: image-registry.openshift-image-registry.svc:5000/${NAMESPACE}/ace-studio:latest
+          ports:
+            - containerPort: 3000
+              protocol: TCP
+          env:
+            - name: NEXT_PUBLIC_API_URL
+              value: "http://acestep-api:8001"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 10
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 10
