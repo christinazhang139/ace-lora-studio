@@ -3,8 +3,8 @@ import { Sidebar } from "./components/Sidebar";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "ACE Studio",
-  description: "Personal LoRA training workspace for ACE-Step",
+  title: "ACE LoRA Christina Studio",
+  description: "LoRA training workspace for ACE-Step 1.5",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
