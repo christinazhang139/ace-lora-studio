@@ -3,7 +3,7 @@ import { Sidebar } from "./components/Sidebar";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "ACE LoRA Christina Studio",
+  title: "ACE LoRA Training Studio",
   description: "LoRA training workspace for ACE-Step 1.5",
 };
 

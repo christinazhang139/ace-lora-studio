@@ -21,7 +21,7 @@ export function Sidebar() {
   return (
     <aside className="w-56 h-screen flex flex-col border-r border-gray-200 bg-gray-50/50">
       <div className="px-5 py-6">
-        <h1 className="text-lg font-bold tracking-tight">ACE LoRA Christina</h1>
+        <h1 className="text-lg font-bold tracking-tight">ACE LoRA Training</h1>
         <p className="text-xs text-gray-400 mt-0.5">Studio</p>
       </div>
 

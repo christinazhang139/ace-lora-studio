@@ -1,4 +1,4 @@
-# ACE LoRA Christina Studio
+# ACE LoRA Training Studio
 
 A web UI for fine-tuning [ACE-Step 1.5](https://github.com/ace-step/ACE-Step-1.5) with LoRA adapters. Upload your songs, train a style adapter, and verify the results with A/B listening tests and spectral analysis.
 
@@ -144,7 +144,7 @@ Copy `.env.example` to `.env.local` to configure.
 ```
 ┌─────────────────────┐     HTTP/REST      ┌──────────────────────┐
 │                     │ ◄──────────────── │                      │
-│  ACE LoRA Christina │                    │   ACE-Step 1.5       │
+│  ACE LoRA Training  │                    │   ACE-Step 1.5       │
 │   (Next.js)         │ ──────────────── │   (FastAPI + PyTorch) │
 │                     │   /v1/training/*   │                      │
 │   Port 3000         │   /v1/lora/*       │   Port 8001          │
