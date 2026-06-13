@@ -1,4 +1,4 @@
-# ACE LoRA Studio
+# ACE LoRA Christina Studio
 
 Web frontend for [ACE-Step 1.5](https://github.com/ace-step/ACE-Step-1.5), the open-source music generation model (CVPR 2026, MIT license).
 
@@ -166,7 +166,7 @@ Copy `.env.example` to `.env.local` to configure.
 ```
 ┌─────────────────────┐     HTTP/REST      ┌──────────────────────┐
 │                     │ ◄──────────────── │                      │
-│   ACE LoRA Studio   │                    │   ACE-Step 1.5       │
+│  ACE LoRA Christina │                    │   ACE-Step 1.5       │
 │   (Next.js)         │ ──────────────── │   (FastAPI + PyTorch) │
 │                     │   /v1/training/*   │                      │
 │   Port 3000         │   /v1/lora/*       │   Port 8001          │
