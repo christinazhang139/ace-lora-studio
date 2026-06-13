@@ -6,12 +6,11 @@ COPY package.json package-lock.json ./
 COPY packages/ui/package.json packages/ui/
 COPY studio/package.json studio/
 COPY muse/package.json muse/
-RUN npm ci
+RUN npm ci --workspaces --include-workspace-root
 
 FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
-COPY --from=deps /app/packages/ui/node_modules ./packages/ui/node_modules
 COPY . .
 RUN npm run build --workspace=studio
 
@@ -21,9 +20,9 @@ ENV NODE_ENV=production
 RUN addgroup --system --gid 1001 nodejs && \
     adduser --system --uid 1001 nextjs
 
-COPY --from=builder /app/studio/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/studio/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/studio/.next/static ./studio/.next/static
+COPY --from=builder /app/studio/public ./studio/public
 
 USER nextjs
 EXPOSE 3000

@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: ace-studio
+  name: ace-lora-studio
   labels:
-    app: ace-studio
+    app: ace-lora-studio
 spec:
   selector:
-    app: ace-studio
+    app: ace-lora-studio
   ports:
     - port: 3000
       targetPort: 3000

@@ -1,22 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ace-studio
+  name: ace-lora-studio
   labels:
-    app: ace-studio
+    app: ace-lora-studio
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: ace-studio
+      app: ace-lora-studio
   template:
     metadata:
       labels:
-        app: ace-studio
+        app: ace-lora-studio
     spec:
       containers:
-        - name: ace-studio
-          image: image-registry.openshift-image-registry.svc:5000/${NAMESPACE}/ace-studio:latest
+        - name: ace-lora-studio
+          # Replace with your actual image registry and tag
+          image: quay.io/youruser/ace-lora-studio:latest
           ports:
             - containerPort: 3000
               protocol: TCP
