@@ -1,26 +1,30 @@
 # ACE LoRA Christina Studio
 
-Web frontend for [ACE-Step 1.5](https://github.com/ace-step/ACE-Step-1.5), the open-source music generation model (CVPR 2026, MIT license).
+A web UI for fine-tuning [ACE-Step 1.5](https://github.com/ace-step/ACE-Step-1.5) with LoRA adapters. Upload your songs, train a style adapter, and verify the results with A/B listening tests and spectral analysis.
 
 Built by [Christina Zhang](https://github.com/christinazhang139).
 
-Two apps in one monorepo:
-
-- **Studio** — LoRA fine-tuning workspace: upload your songs, train a style adapter, compare results with spectral analysis
-- **Muse** — Music generation and continuation: describe what you want, optionally upload a melody, get a full arrangement
-
 ![Architecture](https://img.shields.io/badge/Next.js_16-black?logo=next.js) ![License](https://img.shields.io/badge/license-MIT-green)
 
-## What ACE-Step 1.5 Is
+## What It Does
 
-ACE-Step is a hybrid music generation model with two components:
+Train the ACE-Step music generation model to learn your musical style:
+
+1. **Dataset** — Upload audio files, auto-label metadata (genre, BPM, key, lyrics)
+2. **Preprocess** — Convert audio to training tensors
+3. **Train** — Fine-tune LoRA or LoKR adapters with real-time loss curves
+4. **Export** — Export trained weights as `.safetensors`, download to your computer
+5. **A/B Compare** — Generate the same prompt with and without LoRA, listen side by side
+6. **Spectral Compare** — FFT frequency analysis comparing LoRA output, base output, and your reference audio with cosine similarity scoring
+
+## About ACE-Step 1.5
+
+ACE-Step is an open-source music generation model (CVPR 2026, MIT license) with two components:
 
 | Component | Role | Options |
 |-----------|------|---------|
 | **DiT** (Diffusion Transformer) | Generates audio | 2B params (turbo/base/sft) or 4B XL variants |
 | **LM** (Language Model, Qwen3-based) | Understands lyrics, generates metadata | 0.6B, 1.7B, or 4B |
-
-The model generates 10s to 10min audio, supports 50+ languages for lyrics, and covers 1000+ instruments and styles.
 
 ### Model Variants
 
@@ -53,25 +57,6 @@ The model generates 10s to 10min audio, supports 50+ languages for lyrics, and c
 
 This project was developed and tested on an RTX 4090 (24 GB) with `acestep-v15-xl-base` (4B DiT) + `acestep-5Hz-lm-0.6B`.
 
-## Features
-
-### Studio (LoRA Training)
-
-1. **Dataset** — Upload audio files, scan server directories, auto-label metadata (genre, BPM, key, lyrics)
-2. **Preprocess** — Convert audio to training tensors
-3. **Train** — Fine-tune LoRA or LoKR adapters with real-time loss curves
-4. **Export** — Export trained weights as `.safetensors`, download to your computer
-5. **A/B Compare** — Generate the same prompt with and without LoRA, listen side by side
-6. **Spectral Compare** — FFT frequency analysis comparing LoRA output, base output, and your reference audio with cosine similarity scoring
-
-### Muse (Music Generation)
-
-- Text-to-music and melody continuation
-- Track class selection (vocals, drums, bass, guitar, piano, strings, etc.)
-- BPM and key detection with manual override
-- LoRA adapter loading for style transfer
-- Generation history
-
 ## Quick Start
 
 ### Prerequisites
@@ -96,9 +81,9 @@ npm run build
 npm start
 ```
 
-Open http://localhost:3000. The frontend auto-connects to the backend at `http://localhost:8001`.
+Open http://localhost:3001. The frontend auto-connects to the backend at `http://localhost:8001`.
 
-To use a different backend URL:
+To point to a different backend:
 
 ```bash
 NEXT_PUBLIC_API_URL=http://your-backend:8001 npm start
@@ -112,18 +97,15 @@ cd ace-lora-studio
 docker compose -f deploy/local/docker-compose.yml up
 ```
 
-Edit `deploy/local/docker-compose.yml` to point `NEXT_PUBLIC_API_URL` to your backend.
+Edit `deploy/local/docker-compose.yml` to set `NEXT_PUBLIC_API_URL` to your backend address.
 
 ### Option 3: OpenShift / Kubernetes
 
 See [deploy/openshift/README.md](deploy/openshift/README.md) for full instructions.
 
 ```bash
-# Build and push the image
 docker build -f deploy/openshift/Dockerfile -t your-registry/ace-lora-studio:latest .
 docker push your-registry/ace-lora-studio:latest
-
-# Deploy
 oc apply -f deploy/openshift/
 ```
 
@@ -141,11 +123,7 @@ ace-lora-studio/
 │       ├── workflow/   # Main training pipeline UI
 │       ├── dataset/    # Dataset management
 │       ├── train/      # Training controls
-│       └── export/     # Export + comparison
-├── muse/               # Music generation app (Next.js)
-│   └── app/
-│       ├── page.tsx    # Generation interface
-│       └── history/    # Generation history
+│       └── export/     # Export + A/B + spectral compare
 └── deploy/
     ├── local/          # Docker Compose setup
     └── openshift/      # OpenShift/K8s manifests
@@ -171,10 +149,9 @@ Copy `.env.example` to `.env.local` to configure.
 │                     │   /v1/training/*   │                      │
 │   Port 3000         │   /v1/lora/*       │   Port 8001          │
 │                     │   /v1/dataset/*    │                      │
-│   - Studio app      │   /release_task    │   - DiT model        │
-│   - Muse app        │   /v1/audio        │   - LM model         │
-│   - @ace/ui lib     │                    │   - LoRA training     │
-│                     │                    │   - Audio generation  │
+│                     │   /release_task    │   - DiT model        │
+│                     │   /v1/audio        │   - LM model         │
+│                     │                    │   - LoRA training     │
 └─────────────────────┘                    └──────────────────────┘
         Browser                                GPU Server
 ```

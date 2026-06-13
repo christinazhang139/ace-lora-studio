@@ -5,7 +5,6 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 COPY packages/ui/package.json packages/ui/
 COPY studio/package.json studio/
-COPY muse/package.json muse/
 RUN npm ci --workspaces --include-workspace-root
 
 FROM base AS builder

@@ -1,6 +1,6 @@
 {
   "private": true,
-  "workspaces": ["packages/ui", "studio", "muse"],
+  "workspaces": ["packages/ui", "studio"],
   "scripts": {
     "build": "npm run build --workspace=studio",
     "start": "npm start --workspace=studio",
