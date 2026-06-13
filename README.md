@@ -164,6 +164,43 @@ Copy `.env.example` to `.env.local` to configure.
 - Web Audio API (spectral analysis)
 - Canvas API (frequency charts)
 
+## Troubleshooting
+
+### LoRA output sounds like noise or static
+
+The most common cause is **DCW (Differential Correction in Wavelet domain)** being enabled for XL models. DCW is designed for 2B models and produces garbled audio when used with 4B XL weights. Check these files in the ACE-Step backend and set `dcw=False` or `use_dcw=False` wherever it appears:
+
+- `acestep/pipeline/ace_step_pipeline.py`
+- `acestep/pipeline/ace_step_pipeline_wrapper.py`
+- `acestep/pipeline/schedulers/scheduling_flow_match_euler_discrete.py`
+- `acestep/api/http/infer_route.py`
+- `configs/infer_config.yaml`
+
+If your generated audio is pure noise, this is almost certainly why.
+
+### Downloaded model weights don't match your config
+
+`model_download.py` may not have a mapping for `xl-base`. When you specify `--model xl-base`, it could silently download 2B turbo weights instead of 4B XL weights. Verify the downloaded files match the expected size (~8 GB for XL vs ~4 GB for 2B). If wrong, download directly from HuggingFace:
+
+```bash
+huggingface-cli download ACE-Step/acestep-v15-xl-base --local-dir models/acestep-v15-xl-base
+```
+
+### Auto Label returns wrong metadata or 500 errors
+
+Check your `.env` file. If it contains `ACESTEP_LM_MODEL_PATH=4B`, python-dotenv loads this before your command-line argument, so the API silently uses the 4B LM even if you started it with `--lm-model 0.6B`. Remove or comment out the `.env` entry if you want command-line args to take effect.
+
+After restarting the API, you may also need to re-initialize the LM model:
+
+```bash
+curl -X POST http://localhost:8001/v1/init -H "Content-Type: application/json" \
+  -d '{"init_llm": true}'
+```
+
+### Generated music sounds muffled or over-compressed
+
+Lower `guidance_scale` to **7** for XL models. The default of 15 works for 2B turbo but over-constrains 4B models, producing flat dynamics. Set this in your generation request or in `configs/infer_config.yaml`.
+
 ## License
 
 MIT. See [LICENSE](LICENSE).
