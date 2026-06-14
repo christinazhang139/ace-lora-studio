@@ -81,6 +81,24 @@ uv run acestep-api --host 0.0.0.0 --port 8001
 
 Models download automatically on first run.
 
+> **Important: Backend patches required for full functionality.**
+> The upstream ACE-Step 1.5 works for basic generation, but this Studio uses backend features that require patches:
+>
+> | Feature | What's missing in upstream |
+> |---------|--------------------------|
+> | **Download trained LoRA** | No `/v1/download` endpoint — the Export tab can't download weights |
+> | **XL model generation** | DCW enabled by default — 4B XL models produce noise instead of music |
+> | **Concurrent training + generation** | LLM race condition — simultaneous requests crash the server |
+>
+> If you use XL models or need the full training workflow (train + export + download), apply the patches from [acestep-on-openshift/backend/patches/](https://github.com/christinazhang139/acestep-on-openshift/tree/main/backend/patches) on top of your ACE-Step clone:
+>
+> ```bash
+> cd ACE-Step-1.5
+> cp -r /path/to/acestep-on-openshift/backend/patches/* .
+> ```
+>
+> Or use 2B models (`acestep-v15-turbo`, `acestep-v15-base`) which work without patches for generation (but still need the download patch for Export).
+
 ### Option 1: Run Locally (npm)
 
 ```bash
@@ -111,13 +129,7 @@ Edit `deploy/local/docker-compose.yml` to set `NEXT_PUBLIC_API_URL` to your back
 
 ### Option 3: OpenShift / Kubernetes
 
-See [deploy/openshift/README.md](deploy/openshift/README.md) for full instructions.
-
-```bash
-docker build -f deploy/openshift/Dockerfile -t your-registry/ace-lora-training-studio:latest .
-docker push your-registry/ace-lora-training-studio:latest
-oc apply -f deploy/openshift/
-```
+For deploying both the frontend and the patched backend on OpenShift with GPU support, see the dedicated repo: **[acestep-on-openshift](https://github.com/christinazhang139/acestep-on-openshift)**. It includes container images, deployment manifests, and a copy-paste guide tested on OpenShift 4.21.
 
 ## Project Structure
 
@@ -135,8 +147,7 @@ ace-lora-training-studio/
 │       ├── train/      # Training controls
 │       └── export/     # Export + A/B + spectral compare
 └── deploy/
-    ├── local/          # Docker Compose setup
-    └── openshift/      # OpenShift/K8s manifests
+    └── local/          # Docker Compose setup
 ```
 
 ## Environment Variables
